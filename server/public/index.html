@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>chatting App</h1>
+
+    <input placeholder="send message" type="text" name="" id="messageInput" />
+    <button id="Btnclick">Send</button>
+
+    <div id="messages"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const Btnclick = document.getElementById("Btnclick");
+      const messageInput = document.getElementById("messageInput");
+
+      const allmessages = document.getElementById("messages");
+
+      // socket.on("message", (message) => {
+      //   const p = document.createElement("p");
+      //   p.innerText = message;
+      //   allmessages.appendChild(p);
+      //   console.log(message);
+      // });
+
+      socket.on("message", (message) => {
+        const p = document.createElement("p");
+        const para = p.appendChild(document.createTextNode(message));
+        document.querySelector("#messages").appendChild(para);
+      });
+
+      Btnclick.addEventListener("click", () => {
+        const message = messageInput.value;
+        console.log(message);
+        socket.emit("User-message", message); //emit means share everyone messagess... socket.emit() --thses is use for share or send message client to server or spared..
+      });
+    </script>
+  </body>
+</html>
